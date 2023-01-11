@@ -13,3 +13,7 @@ Imports:
     dplyr,
     imager,
     shiny
+Depends:
+    shiny,
+    dplyr,
+    imager
