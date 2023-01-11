@@ -10,7 +10,7 @@
 
 click_length <- function(image_path = system.file("example_images", package = "ClickMetrics")){
   app <- shiny::shinyApp(
-  ui <- fluidPage(
+  ui <- shiny::fluidPage(
     titlePanel("Click Length"),
 
     fluidRow(
