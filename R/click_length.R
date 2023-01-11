@@ -13,8 +13,8 @@ click_length <- function(image_path = system.file("example_images", package = "C
   ui <- shiny::fluidPage(
     shiny::titlePanel("Click Length"),
 
-    fluidRow(
-      plotOutput("IMG",
+    shiny::fluidRow(
+      shiny::plotOutput("IMG",
                  click = "click_plot",
                  "50%",
                  "500px")

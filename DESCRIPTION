@@ -17,3 +17,4 @@ Depends:
     shiny,
     dplyr,
     imager
+RoxygenNote: 7.2.3
