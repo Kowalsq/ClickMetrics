@@ -1,4 +1,3 @@
-#' @export
 #' @import shiny
 #' @import shinydashboard
 #' @import dplyr
@@ -9,6 +8,8 @@
 #' @author Felipe de Moraes Kowalski
 #' @description This function launch a \pkg{shiny} application in browser to
 #'     make possible drawing a polygon above a map.
+#' @title draw_polygon
+#' @export
 
 
 draw_polygon <- function () {

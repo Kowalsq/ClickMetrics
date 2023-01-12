@@ -1,4 +1,3 @@
-#' @export
 #' @import shiny
 #' @import shinydashboard
 #' @import dplyr
@@ -6,6 +5,8 @@
 #' @author Felipe de Moraes Kowalski
 #' @description This function launch a \pkg{shiny} application in browser to
 #'     count every user click in the image. See section Details for usage.
+#' @title click_count
+#' @export
 
 
 click_count <- function(image_path = system.file("example_images", package = "ClickMetrics")){

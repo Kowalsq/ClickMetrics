@@ -1,4 +1,3 @@
-#' @export
 #' @import shiny
 #' @import shinydashboard
 #' @import dplyr
@@ -7,6 +6,8 @@
 #' @author Felipe de Moraes Kowalski
 #' @description This function launch a \pkg{shiny} application in browser to
 #'     detect the hex code and the RGBA of the clicked pixel on the image using javascript.
+#' @title color_picker
+#' @export
 
 color_picker <- function(){
   js <- '

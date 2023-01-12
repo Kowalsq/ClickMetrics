@@ -4,6 +4,7 @@
 #' @import dplyr
 #' @import imager
 #' @author Felipe de Moraes Kowalski
+#' @param image_path insert the path with the images you want to use. Default is a set of example images.
 #' @description This function launch a \pkg{shiny} application in browser to
 #'     measure the distance between every pair of clicks. See Details for usage.
 #' @export
