@@ -11,26 +11,30 @@
 
 click_count <- function(image_path = system.file("example_images", package = "ClickMetrics")){
   app <- shinyApp(
-    ui <- fluidPage(
-
-    titlePanel("Click Count"),
-
-    fluidRow(
-      plotOutput("IMG", click = "click_plot", "50%", "500px"),
-      sidebarPanel(actionButton("clear", "Clear Points"))
+    ui <- dashboardPage(
+      
+      skin = 'purple',
+      
+      dashboardHeader(title = "ClickMetrics"),
+      
+      dashboardSidebar(disable = TRUE),
+      
+      dashboardBody(
+        fluidRow(
+          box(plotOutput("IMG",
+                         height = 400,
+                         click = "click_plot")),
+          box(selectInput("IMAGE",
+                          "Images:",
+                          list.files(path = image_path,
+                                     pattern = ".jpg",
+                                     full.names = TRUE,
+                                     include.dirs = FALSE)))
+        ),
+        
+        actionButton("clear", "Clear Points")
+      )
     ),
-
-    sidebarPanel(selectInput("IMAGE", "Sample image:",
-                             list.files(path = image_path,
-                                        pattern = ".jpg",
-                                        full.names = TRUE,
-                                        include.dirs = FALSE))),
-
-    fluidRow(
-      verbatimTextOutput("info")
-    )
-
-  ),
 
     server <- function(input, output, session){
 

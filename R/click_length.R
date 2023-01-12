@@ -111,7 +111,7 @@ click_length <- function(image_path = system.file("example_images", package = "C
   runApp(app)
 }
 
-click_length()
+
 
 
 
