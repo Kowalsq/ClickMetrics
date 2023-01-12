@@ -32,7 +32,7 @@ click_length <- function(image_path = system.file("example_images", package = "C
           ),
           
           box(
-            verbatimTextOutput("INFO")
+            textOutput("INFO")
           )
         )
       )
@@ -100,6 +100,10 @@ click_length <- function(image_path = system.file("example_images", package = "C
                      col = "black")
           }
         }
+      })
+      
+      output$INFO <- renderText({
+        print(CLICKS$pair)
       })
       
     })
