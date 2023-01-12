@@ -8,7 +8,7 @@
 #'     count every user click in the image. See section Details for usage.
 
 
-click_count <- function(){
+click_count <- function(image_path = system.file("example_images", package = "ClickMetrics")){
   app <- shinyApp(
     ui <- fluidPage(
 
@@ -20,7 +20,7 @@ click_count <- function(){
     ),
 
     sidebarPanel(selectInput("IMAGE", "Sample image:",
-                             list.files(path = "G:/ClickMetrics/ClickMetrics/example_images",
+                             list.files(path = image_path,
                                         pattern = ".jpg",
                                         full.names = TRUE,
                                         include.dirs = FALSE))),
