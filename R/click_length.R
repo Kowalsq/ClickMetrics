@@ -27,7 +27,7 @@ click_length <- function(image_path = system.file("example_images", package = "C
                          list.files(path = image_path,
                                     pattern = ".jpg",
                                     full.names = TRUE,
-                                    include.dirs = FALSE))),
+                                    include.dirs = FALSE)))
             
           ),
           
@@ -111,6 +111,7 @@ click_length <- function(image_path = system.file("example_images", package = "C
   runApp(app)
 }
 
+click_length()
 
 
 
