@@ -2,6 +2,7 @@
 
 export(click_count)
 export(click_length)
+export(click_poly)
 export(color_picker)
 export(draw_polygon)
 export(example_images)
@@ -13,3 +14,4 @@ import(sf)
 import(shiny)
 import(shinydashboard)
 import(spatstat)
+import(tidyverse)

@@ -2,6 +2,7 @@
 #' @import shinydashboard
 #' @import imager
 #' @import tidyverse
+#' @import spatstat
 #' @author Felipe de Moraes Kowalski
 #' @description This function launch a \pkg{shiny} application in browser to
 #'     draw a polygon by clicking on points.
@@ -84,6 +85,5 @@ click_poly <- function(image_path = system.file("example_images", package = "Cli
   runApp(app)
 }
 
-click_poly()
 
  

@@ -8,6 +8,9 @@ click_length(
   image_path = system.file("example_images", package = "ClickMetrics")
 )
 }
+\arguments{
+\item{image_path}{insert the path with the images you want to use. Default is a set of example_images}
+}
 \description{
 This function launch a \pkg{shiny} application in browser to
     measure the distance between every pair of clicks. See Details for usage.
