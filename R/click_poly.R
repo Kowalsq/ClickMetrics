@@ -3,6 +3,7 @@
 #' @import imager
 #' @import tidyverse
 #' @import spatstat
+#' @import purrr
 #' @author Felipe de Moraes Kowalski
 #' @description This function launch a \pkg{shiny} application in browser to
 #'     draw a polygon by clicking on points.
