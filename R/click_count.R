@@ -96,3 +96,4 @@ click_count <- function(image_path = system.file("example_images", package = "Cl
 
 
 
+

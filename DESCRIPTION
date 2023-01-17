@@ -12,7 +12,8 @@ LazyData: true
 Imports: 
     dplyr,
     imager,
-    shiny
+    shiny,
+    spatstat
 Depends:
     shiny,
     dplyr,
