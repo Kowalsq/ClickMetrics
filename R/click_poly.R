@@ -3,7 +3,8 @@
 #' @import imager
 #' @import tidyverse
 #' @author Felipe de Moraes Kowalski
-#' @description 
+#' @description This function launch a \pkg{shiny} application in browser to
+#'     draw a polygon by clicking on points.
 #' @title click_poly
 #' @export
 
@@ -72,7 +73,7 @@ click_poly <- function(image_path = system.file("example_images", package = "Cli
                 cex = 1.23)
         }
         CLICKS() %>%
-          nest(-name) %>%
+          nest(cols = -name) %>%
           deframe() %>%
           map(~polygon(.x$x, .x$y))
       })
