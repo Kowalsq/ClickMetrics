@@ -14,7 +14,9 @@ Imports:
     imager,
     purrr,
     shiny,
-    spatstat
+    spatstat,
+    tibble,
+    tidyr
 Depends:
     shiny,
     dplyr,

@@ -1,8 +1,9 @@
 #' @import shiny
 #' @import shinydashboard
 #' @import imager
-#' @import tidyverse
+#' @import tidyr
 #' @import spatstat
+#' @import tibble
 #' @import purrr
 #' @author Felipe de Moraes Kowalski
 #' @description This function launch a \pkg{shiny} application in browser to
