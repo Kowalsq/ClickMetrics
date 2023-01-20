@@ -53,6 +53,11 @@ $(document).ready(function(){
   ),
 
   server <- function(input, output, session){
+    
+    img <- reactive({
+      f <- input$IMAGE
+      imager::load.image(f)
+    })
 
     output[["ggplot"]] <- renderPlot({
       ggplot(iris) +

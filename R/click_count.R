@@ -2,6 +2,7 @@
 #' @import shinydashboard
 #' @import dplyr
 #' @import imager
+#' @import reactable
 #' @author Felipe de Moraes Kowalski
 #' @description This function launch a \pkg{shiny} application in browser to
 #'     count every user click in the image. See section Details for usage.
@@ -32,7 +33,9 @@ click_count <- function(image_path = system.file("example_images", package = "Cl
                                      include.dirs = FALSE)))
         ),
         
-        actionButton("clear", "Clear Points")
+        actionButton("clear", "Clear Points"),
+        
+        reactableOutput("INFO")
       )
     ),
 
@@ -79,11 +82,9 @@ click_count <- function(image_path = system.file("example_images", package = "Cl
       text(dest_coords$x, dest_coords$y,names,cex = 2 ,col = 'red')
     })
 
-    output$info <- renderPrint({
-      req(input$click_plot)
-      x <- round(input$click_plot$x,2)
-      y <- round(input$click_plot$y,2)
-      cat("[", x, ", ", y, "]", sep = "")
+    output$INFO <- renderReactable({
+      df1 <- data.frame(dest_coords$x, dest_coords$y)
+      reactable(df1)
     })
   })
 

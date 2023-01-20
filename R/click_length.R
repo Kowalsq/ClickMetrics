@@ -3,6 +3,7 @@
 #' @import shinydashboard
 #' @import dplyr
 #' @import imager
+#' @import reactable
 #' @author Felipe de Moraes Kowalski
 #' @param image_path insert the path with the images you want to use. Default is a set of example_images
 #' @description This function launch a \pkg{shiny} application in browser to
@@ -31,9 +32,10 @@ click_length <- function(image_path = system.file("example_images", package = "C
             
           ),
           
-          box(
-            textOutput("INFO")
-          )
+          actionButton("clear","Clear Points"),
+          
+          reactableOutput("INFO")
+          
         )
       )
     ),
@@ -56,6 +58,8 @@ click_length <- function(image_path = system.file("example_images", package = "C
         pair = NULL
       )
       
+      ns <- session$ns
+      
       observeEvent(eventExpr = input$click_plot$x, handlerExpr = {
         CLICKS$x <- append(CLICKS$x, input$click_plot$x)
         CLICKS$y <- append(CLICKS$y, input$click_plot$y)
@@ -65,7 +69,6 @@ click_length <- function(image_path = system.file("example_images", package = "C
                  as.integer(ceiling(length(CLICKS$x)/2)))
         df <- data.frame(CLICKS$x, CLICKS$y, CLICKS$pair)
         df <- split(df, CLICKS$pair)
-        print(df)
       })
       
       output$IMG <- renderPlot({
@@ -102,14 +105,22 @@ click_length <- function(image_path = system.file("example_images", package = "C
         }
       })
       
-      output$INFO <- renderText({
-        print(CLICKS$pair)
+      output$INFO <- renderReactable({
+        df1 <- data.frame(round(CLICKS$x,2), round(CLICKS$y,2), CLICKS$pair)
+        reactable(df1)
+      })
+      
+      observe({
+        if(input$clear>0){
+          session$reload()
+        }
       })
       
     })
   
   runApp(app)
 }
+
 
 
 

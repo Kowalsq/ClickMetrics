@@ -55,12 +55,20 @@ click_poly <- function(image_path = system.file("example_images", package = "Cli
         )
       )
       
+      ns <- session$ns
+      
       observeEvent(eventExpr = input$click_plot$x, handlerExpr = {
         add_row(CLICKS(),
                 x = isolate(input$click_plot$x),
                 y = isolate(input$click_plot$y),
                 name = isolate(input$polygon_name)
                 ) %>% CLICKS()
+      })
+
+      observe({
+        if(input$clear>0){
+          session$reload()
+        }
       })
       
       output$IMG <- renderPlot({
@@ -86,6 +94,5 @@ click_poly <- function(image_path = system.file("example_images", package = "Cli
   )
   runApp(app)
 }
-
 
  
