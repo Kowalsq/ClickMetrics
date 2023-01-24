@@ -9,7 +9,7 @@
 #' @title color_picker
 #' @export
 
-color_picker <- function(){
+color_picker <- function(image_path = system.file("example_images", package = "ClickMetrics")){
   js <- '
 $(document).ready(function(){
   var canvas = document.createElement("canvas");
@@ -31,56 +31,64 @@ $(document).ready(function(){
 })
 '
   app <- shinyApp(
-  ui <- fluidPage(
-    tags$head(
-      tags$script(HTML(js))
-    ),
-    br(),
-    fluidRow(
-      column(
-        width = 9,
-        plotOutput("ggplot")
+    ui <- fluidPage(
+      tags$head(
+        tags$script(HTML(js))
       ),
-      column(
-        width = 3,
-        h3("pixel RGBA:"),
-        verbatimTextOutput("pixelRGBA"),
-        br(),
-        h3("pixel color:"),
-        verbatimTextOutput("pixelColor")
+      br(),
+      fluidRow(
+        column(
+          width = 9,
+          plotOutput("ggplot",
+                     click = "click_plot"),
+          selectInput("IMAGE",
+                      "Images:",
+                      list.files(path = image_path,
+                                 pattern = ".jpg",
+                                 full.names = TRUE,
+                                 include.dirs = FALSE))
+        ),
+        column(
+          width = 3,
+          h3("pixel RGBA:"),
+          verbatimTextOutput("pixelRGBA"),
+          br(),
+          h3("pixel color:"),
+          verbatimTextOutput("pixelColor")
+        )
       )
-    )
-  ),
-
-  server <- function(input, output, session){
+    ),
     
-    img <- reactive({
-      f <- input$IMAGE
-      imager::load.image(f)
+    server <- function(input, output, session){
+      
+      img <- reactive({
+        f <- input$IMAGE
+        imager::load.image(f)
+      })
+      
+      output[["ggplot"]] <- renderPlot({
+        img <- img()
+        plot(img, axes = FALSE)
+        box(col = 'grey')
+        
+      })
+      
+      output[["pixelRGBA"]] <- renderPrint({
+        input[["color"]]
+      })
+      
+      pixelColor <- reactive({
+        req(input[["color"]])
+        rgba <- input[["color"]]
+        rgb(rgba[1], rgba[2], rgba[3], rgba[4], maxColorValue = 255)
+      })
+      
+      output[["pixelColor"]] <- renderPrint({
+        pixelColor()
+      })
+      
     })
-
-    output[["ggplot"]] <- renderPlot({
-      ggplot(iris) +
-        geom_point(aes(x = Sepal.Length, y = Sepal.Width, colour = Species),
-                   size = 3)
-    })
-
-    output[["pixelRGBA"]] <- renderPrint({
-      input[["color"]]
-    })
-
-    pixelColor <- reactive({
-      req(input[["color"]])
-      rgba <- input[["color"]]
-      rgb(rgba[1], rgba[2], rgba[3], rgba[4], maxColorValue = 255)
-    })
-
-    output[["pixelColor"]] <- renderPrint({
-      pixelColor()
-    })
-
-  })
-
+  
   runApp(app)
 }
 
