@@ -60,7 +60,7 @@ click_length <- function(image_path = system.file("example_images", package = "C
       
       ns <- session$ns
       
-      observeEvent(eventExpr = input$click_plot$x, handlerExpr = {
+      observeEvent(eventExpr = input$click_plot$x, handlerExpr = { ## Adds the info about clicks
         CLICKS$x <- append(CLICKS$x, input$click_plot$x)
         CLICKS$y <- append(CLICKS$y, input$click_plot$y)
         CLICKS$n <- append(CLICKS$n, length(CLICKS$x))
@@ -69,6 +69,7 @@ click_length <- function(image_path = system.file("example_images", package = "C
                  as.integer(ceiling(length(CLICKS$x)/2)))
         df <- data.frame(CLICKS$x, CLICKS$y, CLICKS$pair)
         df <- split(df, CLICKS$pair)
+        print(dim(img())) # prints dimensions of the image 
       })
       
       output$IMG <- renderPlot({
@@ -110,7 +111,7 @@ click_length <- function(image_path = system.file("example_images", package = "C
         reactable(df1)
       })
       
-      observe({
+      observe({ # clear clicked points
         if(input$clear>0){
           session$reload()
         }
@@ -120,6 +121,7 @@ click_length <- function(image_path = system.file("example_images", package = "C
   
   runApp(app)
 }
+
 
 
 

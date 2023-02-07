@@ -12,6 +12,7 @@ LazyData: true
 Imports: 
     dplyr,
     imager,
+    pracma,
     purrr,
     reactable,
     shiny,

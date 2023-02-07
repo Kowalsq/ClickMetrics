@@ -51,7 +51,8 @@ click_poly <- function(image_path = system.file("example_images", package = "Cli
         value = tibble(
         x = numeric(),
         y = numeric(),
-        name = character()
+        name = character(),
+        area = numeric()
         )
       )
       
@@ -63,6 +64,11 @@ click_poly <- function(image_path = system.file("example_images", package = "Cli
                 y = isolate(input$click_plot$y),
                 name = isolate(input$polygon_name)
                 ) %>% CLICKS()
+        teste <- CLICKS()
+        comp <- length(teste$x)
+        area <- pracma::polyarea(teste$x, teste$y)
+        teste[comp,4] <- area
+        CLICKS(teste)
       })
 
       observe({
@@ -94,5 +100,6 @@ click_poly <- function(image_path = system.file("example_images", package = "Cli
   )
   runApp(app)
 }
+
 
  

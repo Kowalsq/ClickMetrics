@@ -54,7 +54,7 @@ draw_polygon <- function () {
                                                fillColor = "black", fillOpacity = 0.5)
         t <- st_sfc(new.polygon, crs = 4326)
         area <- st_area(t)
-        print(paste0("Polygon area: ", round((area/1000000), 2), " km²"))
+        print(paste0("Polygon area: ", round((area/1000000), 2), " sqkm"))
       }
     })
     observeEvent(input$clear, {
@@ -79,5 +79,6 @@ draw_polygon <- function () {
   }
   shinyApp(ui, server)
 }
+
 
 

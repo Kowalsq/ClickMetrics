@@ -4,7 +4,9 @@
 \alias{color_picker}
 \title{color_picker}
 \usage{
-color_picker()
+color_picker(
+  image_path = system.file("example_images", package = "ClickMetrics")
+)
 }
 \description{
 This function launch a \pkg{shiny} application in browser to
