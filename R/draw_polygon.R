@@ -80,5 +80,6 @@ draw_polygon <- function () {
   shinyApp(ui, server)
 }
 
+draw_polygon()
 
 

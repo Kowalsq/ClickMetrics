@@ -5,6 +5,7 @@
 #' @import spatstat
 #' @import tibble
 #' @import purrr
+#' @import pracma
 #' @author Felipe de Moraes Kowalski
 #' @description This function launch a \pkg{shiny} application in browser to
 #'     draw a polygon by clicking on points.

@@ -55,7 +55,8 @@ click_length <- function(image_path = system.file("example_images", package = "C
         x = NULL,
         y = NULL,
         n = NULL,
-        pair = NULL
+        pair = NULL,
+        distances = NULL
       )
       
       ns <- session$ns
@@ -69,7 +70,18 @@ click_length <- function(image_path = system.file("example_images", package = "C
                  as.integer(ceiling(length(CLICKS$x)/2)))
         df <- data.frame(CLICKS$x, CLICKS$y, CLICKS$pair)
         df <- split(df, CLICKS$pair)
-        print(dim(img())) # prints dimensions of the image 
+        print(dim(img())) # prints dimensions of the image
+        
+        # Calculate the distances between each pair of clicks
+        if (length(CLICKS$x) >= 2) {
+          n_par <- 2 * floor(length(CLICKS$x)/2)
+          pairs <- cbind(
+            matrix(CLICKS$x[1:n_par], ncol = 2, byrow = TRUE),
+            matrix(CLICKS$y[1:n_par], ncol = 2, byrow = TRUE))
+          distances <- sqrt((pairs[,1] - pairs[,2])^2 + (pairs[,3] - pairs[,4])^2)
+          CLICKS$distances <- distances
+          print(CLICKS$distances)
+        }
       })
       
       output$IMG <- renderPlot({
