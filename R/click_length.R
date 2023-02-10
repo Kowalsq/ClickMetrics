@@ -79,8 +79,12 @@ click_length <- function(image_path = system.file("example_images", package = "C
             matrix(CLICKS$x[1:n_par], ncol = 2, byrow = TRUE),
             matrix(CLICKS$y[1:n_par], ncol = 2, byrow = TRUE))
           distances <- sqrt((pairs[,1] - pairs[,2])^2 + (pairs[,3] - pairs[,4])^2)
+          distances_cm <- distances * 2.54 / 96 # the W3C yields that 1cm is equal to 96px / 2.54. 
+                                                #That 96px is the Pixels Per Inch value (default PPI in web)
           CLICKS$distances <- distances
+          CLICKS$distances_cm <- distances_cm
           print(CLICKS$distances)
+          print(CLICKS$distances_cm)
         }
       })
       
