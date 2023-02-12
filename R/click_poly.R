@@ -33,7 +33,8 @@ click_poly <- function(image_path = system.file("example_images", package = "Cli
                           list.files(path = image_path,
                                      pattern = ".jpg",
                                      full.names = TRUE,
-                                     include.dirs = FALSE)))
+                                     include.dirs = FALSE))),
+          numericInput("dpi", "DPI:", 96, min = 1, max = 9999)
         ),
         
         actionButton("clear", "Clear Points"),
@@ -50,10 +51,10 @@ click_poly <- function(image_path = system.file("example_images", package = "Cli
       
       CLICKS <- reactiveVal(
         value = tibble(
-        x = numeric(),
-        y = numeric(),
-        name = character(),
-        area = numeric()
+          x = numeric(),
+          y = numeric(),
+          name = character(),
+          area = numeric()
         )
       )
       
@@ -64,14 +65,16 @@ click_poly <- function(image_path = system.file("example_images", package = "Cli
                 x = isolate(input$click_plot$x),
                 y = isolate(input$click_plot$y),
                 name = isolate(input$polygon_name)
-                ) %>% CLICKS()
+        ) %>% CLICKS()
         teste <- CLICKS()
         comp <- length(teste$x)
-        area <- pracma::polyarea(teste$x, teste$y)
-        teste[comp,4] <- area
+        area_pixels <- pracma::polyarea(teste$x, teste$y)
+        area_inches <- area_pixels / (input$dpi)^2
+        area_cm <- area_inches * (2.54^2)
+        teste[comp,4] <- area_cm
         CLICKS(teste)
       })
-
+      
       observe({
         if(input$clear>0){
           session$reload()

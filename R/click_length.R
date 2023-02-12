@@ -28,7 +28,8 @@ click_length <- function(image_path = system.file("example_images", package = "C
                          list.files(path = image_path,
                                     pattern = ".jpg",
                                     full.names = TRUE,
-                                    include.dirs = FALSE)))
+                                    include.dirs = FALSE))),
+            numericInput("dpi", "DPI:", 96, min = 1, max = 9999)
             
           ),
           
@@ -56,7 +57,8 @@ click_length <- function(image_path = system.file("example_images", package = "C
         y = NULL,
         n = NULL,
         pair = NULL,
-        distances = NULL
+        distances = NULL,
+        distances_cm = NULL
       )
       
       ns <- session$ns
@@ -70,7 +72,6 @@ click_length <- function(image_path = system.file("example_images", package = "C
                  as.integer(ceiling(length(CLICKS$x)/2)))
         df <- data.frame(CLICKS$x, CLICKS$y, CLICKS$pair)
         df <- split(df, CLICKS$pair)
-        print(dim(img())) # prints dimensions of the image
         
         # Calculate the distances between each pair of clicks
         if (length(CLICKS$x) >= 2) {
@@ -79,12 +80,10 @@ click_length <- function(image_path = system.file("example_images", package = "C
             matrix(CLICKS$x[1:n_par], ncol = 2, byrow = TRUE),
             matrix(CLICKS$y[1:n_par], ncol = 2, byrow = TRUE))
           distances <- sqrt((pairs[,1] - pairs[,2])^2 + (pairs[,3] - pairs[,4])^2)
-          distances_cm <- distances * 2.54 / 96 # the W3C yields that 1cm is equal to 96px / 2.54. 
-                                                #That 96px is the Pixels Per Inch value (default PPI in web)
+          distances_cm <- distances/ input$dpi * 2.54 # the W3C yields that 1cm is equal to 96px / 2.54. 
+          #That 96px is the Pixels Per Inch value (default PPI in web)/ 2.54 converts from inches to cm
           CLICKS$distances <- distances
           CLICKS$distances_cm <- distances_cm
-          print(CLICKS$distances)
-          print(CLICKS$distances_cm)
         }
       })
       
@@ -123,7 +122,7 @@ click_length <- function(image_path = system.file("example_images", package = "C
       })
       
       output$INFO <- renderReactable({
-        df1 <- data.frame(round(CLICKS$x,2), round(CLICKS$y,2), CLICKS$pair)
+        df1 <- data.frame(round(CLICKS$x,2), round(CLICKS$y,2), CLICKS$pair, round(CLICKS$distances_cm,2))
         reactable(df1)
       })
       
@@ -137,6 +136,7 @@ click_length <- function(image_path = system.file("example_images", package = "C
   
   runApp(app)
 }
+
 
 
 
