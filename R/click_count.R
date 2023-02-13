@@ -28,7 +28,7 @@ click_count <- function(image_path = system.file("example_images", package = "Cl
           box(selectInput("IMAGE",
                           "Images:",
                           list.files(path = image_path,
-                                     pattern = ".jpg",
+                                     pattern = c(".jpg", ".PNG"),
                                      full.names = TRUE,
                                      include.dirs = FALSE)))
         ),
@@ -79,7 +79,7 @@ click_count <- function(image_path = system.file("example_images", package = "Cl
       n <- numberOfClicks()
       dt <- dest_coords$dt
       names <- dest_coords$names
-      text(dest_coords$x, dest_coords$y,names,cex = 2 ,col = 'red')
+      text(dest_coords$x, dest_coords$y,names,cex = 1.5 ,col = 'red')
     })
 
     output$INFO <- renderReactable({

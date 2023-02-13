@@ -96,7 +96,8 @@ click_poly <- function(image_path = system.file("example_images", package = "Cli
         CLICKS() %>%
           nest(cols = -name) %>%
           deframe() %>%
-          map(~polygon(.x$x, .x$y))
+          map(~polygon(.x$x, .x$y,
+                       col = 'red'))
       })
       
       output$TABLE <- renderTable(CLICKS())
