@@ -16,7 +16,7 @@ draw_polygon <- function () {
   head <- dashboardHeader(disable = TRUE)
   sidebar <- dashboardSidebar(disable = TRUE)
   body <- dashboardBody(fluidRow(box(width = 8, leafletOutput("map",
-                                                              height = 800)), box(width = 4, textInput("file_name",
+                                                              height = 400)), box(width = 4, textInput("file_name",
                                                                                                        label = "File Name", value = "polygons.rds"),
                                                                                   actionButton("make", "Make"), actionButton("clear",
                                                                                                                              "Clear"), actionButton("save", "Save"),
@@ -80,6 +80,6 @@ draw_polygon <- function () {
   shinyApp(ui, server)
 }
 
-draw_polygon()
+
 
 

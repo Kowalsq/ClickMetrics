@@ -54,11 +54,17 @@ click_poly <- function(image_path = system.file("example_images", package = "Cli
           x = numeric(),
           y = numeric(),
           name = character(),
-          area = numeric()
+          area = numeric(),
+          proportion = numeric()
         )
       )
       
       ns <- session$ns
+      
+      shoelace_area <- function(x, y) {
+        n <- length(x)
+        (sum(x[-n] * y[-1] - x[-1] * y[-n]) / 2)
+      }
       
       observeEvent(eventExpr = input$click_plot$x, handlerExpr = {
         add_row(CLICKS(),
@@ -67,13 +73,16 @@ click_poly <- function(image_path = system.file("example_images", package = "Cli
                 name = isolate(input$polygon_name)
         ) %>% CLICKS()
         teste <- CLICKS()
-        comp <- length(teste$x)
         area_pixels <- pracma::polyarea(teste$x, teste$y)
         area_inches <- area_pixels / (input$dpi)^2
         area_cm <- area_inches * (2.54^2)
-        teste[comp,4] <- area_cm
+        teste$area <- abs(area_cm)
+        image_area_pixels <- dim(img())[1] * dim(img())[2]
+        teste$proportion <- abs(area_pixels / image_area_pixels)
         CLICKS(teste)
       })
+      
+      
       
       observe({
         if(input$clear>0){
@@ -96,8 +105,11 @@ click_poly <- function(image_path = system.file("example_images", package = "Cli
         CLICKS() %>%
           nest(cols = -name) %>%
           deframe() %>%
-          map(~polygon(.x$x, .x$y,
-                       col = 'red'))
+          map(~ polygon(.x$x, .x$y,
+                        col = rgb(1, 0, 0,0.3),
+                        lwd = 1.5) +
+                text(mean(.x$x), mean(.x$y), paste0(tail(round(CLICKS()$area, 2),1), " cm²"), cex = 1, col = 'white'))
+        
       })
       
       output$TABLE <- renderTable(CLICKS())
@@ -105,6 +117,9 @@ click_poly <- function(image_path = system.file("example_images", package = "Cli
   )
   runApp(app)
 }
+
+###
+
 
 
  
