@@ -4,6 +4,7 @@
 #' @import dplyr
 #' @import imager
 #' @import reactable
+#' @import DT
 #' @author Felipe de Moraes Kowalski
 #' @param image_path insert the path with the images you want to use. Default is a set of example_images
 #' @description This function launch a \pkg{shiny} application in browser to
@@ -35,7 +36,7 @@ click_length <- function(image_path = system.file("example_images", package = "C
           
           actionButton("clear","Clear Points"),
           
-          reactableOutput("INFO")
+          DTOutput("INFO")
           
         )
       )
@@ -116,14 +117,30 @@ click_length <- function(image_path = system.file("example_images", package = "C
                      x1 = tb_pairs[, 2],
                      y0 = tb_pairs[, 3],
                      y1 = tb_pairs[, 4],
-                     col = "black")
+                     col = "red")
+            mid_x <- (tb_pairs[, 1] + tb_pairs[, 2]) / 2
+            mid_y <- (tb_pairs[, 3] + tb_pairs[, 4]) / 2
+            text(x = mid_x - 1, y = mid_y, label = paste0(round(as.numeric(CLICKS$distances_cm), 2), " cm"), cex = 1.25,
+                 col = 'white')
           }
         }
       })
       
-      output$INFO <- renderReactable({
-        df1 <- data.frame(round(CLICKS$x,2), round(CLICKS$y,2), CLICKS$pair, round(CLICKS$distances_cm,2))
-        reactable(df1)
+      output$INFO <- renderDT({
+        df1 <- data.frame(X=round(CLICKS$x,2), Y=round(CLICKS$y,2), Pair=CLICKS$pair, Distance=round(CLICKS$distances_cm,2))
+        datatable(df1,
+                  extensions = c("Buttons"),
+                  
+                  options = list(
+                    paging = TRUE,
+                    searching = TRUE,
+                    fixedColumns = TRUE,
+                    autoWidth = TRUE,
+                    ordering = TRUE,
+                    dom = 'Bfrtip',
+                    buttons = c('copy', 'csv', 'pdf', 'excel')
+                  ),
+                  class = 'display')
       })
       
       observe({ # clear clicked points

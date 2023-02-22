@@ -34,12 +34,12 @@ click_poly <- function(image_path = system.file("example_images", package = "Cli
                                      pattern = ".jpg",
                                      full.names = TRUE,
                                      include.dirs = FALSE))),
-          numericInput("dpi", "DPI:", 96, min = 1, max = 9999)
+          numericInput("dpi", "DPI:", 96, min = 1, max = 9999),
+          textInput("polygon_name", label = "Polygon name:", value = "polygon 1")
         ),
         
         actionButton("clear", "Clear Points"),
-        tableOutput("TABLE"),
-        textInput("polygon_name", label = "Polygon name:", value = "polygon 1")
+        DTOutput("TABLE")
       )
     ),
     
@@ -112,7 +112,19 @@ click_poly <- function(image_path = system.file("example_images", package = "Cli
         
       })
       
-      output$TABLE <- renderTable(CLICKS())
+      output$TABLE <- renderDT(CLICKS(),
+                               extensions = c("Buttons"),
+                               
+                               options = list(
+                                 paging = TRUE,
+                                 searching = TRUE,
+                                 fixedColumns = TRUE,
+                                 autoWidth = TRUE,
+                                 ordering = TRUE,
+                                 dom = 'Bfrtip',
+                                 buttons = c('copy', 'csv', 'pdf', 'excel')
+                               ),
+                               class = 'display')
     }
   )
   runApp(app)

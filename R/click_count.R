@@ -3,6 +3,7 @@
 #' @import dplyr
 #' @import imager
 #' @import reactable
+#' @import DT
 #' @author Felipe de Moraes Kowalski
 #' @description This function launch a \pkg{shiny} application in browser to
 #'     count every user click in the image. See section Details for usage.
@@ -30,12 +31,12 @@ click_count <- function(image_path = system.file("example_images", package = "Cl
                           list.files(path = image_path,
                                      pattern = c(".jpg", ".PNG"),
                                      full.names = TRUE,
-                                     include.dirs = FALSE)))
+                                     include.dirs = FALSE)),
+              actionButton("clear", "Clear Points"))
         ),
         
-        actionButton("clear", "Clear Points"),
         
-        reactableOutput("INFO")
+        DTOutput("INFO")
       )
     ),
 
@@ -47,6 +48,8 @@ click_count <- function(image_path = system.file("example_images", package = "Cl
       f <- input$IMAGE
       imager::load.image(f)
     })
+    
+    ns <- session$ns
 
     # Creating a spot where i can store reactive values
     initX <- 1
@@ -71,6 +74,7 @@ click_count <- function(image_path = system.file("example_images", package = "Cl
     observe({
       if(input$clear > 0){
         dest_coords$names <- NULL
+        session$reload()
       }
     })
 
@@ -82,9 +86,21 @@ click_count <- function(image_path = system.file("example_images", package = "Cl
       text(dest_coords$x, dest_coords$y,names,cex = 1.5 ,col = 'red')
     })
 
-    output$INFO <- renderReactable({
-      df1 <- data.frame(dest_coords$x, dest_coords$y)
-      reactable(df1)
+    output$INFO <- renderDT({
+      df1 <- data.frame(X = dest_coords$x, Y = dest_coords$y)
+      datatable(df1,
+                extensions = c("Buttons"),
+                
+                options = list(
+                  paging = TRUE,
+                  searching = TRUE,
+                  fixedColumns = TRUE,
+                  autoWidth = TRUE,
+                  ordering = TRUE,
+                  dom = 'Bfrtip',
+                  buttons = c('copy', 'csv', 'pdf', 'excel')
+                ),
+                class = 'display')
     })
   })
 
